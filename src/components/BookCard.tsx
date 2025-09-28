@@ -78,14 +78,14 @@ export default function BookCard({ book }: BookCardProps) {
     }
 
     // Twitter Widgets APIの読み込みを待つ
-    if (window.twttr && window.twttr.ready) {
+    if (window.twttr && typeof window.twttr.ready === 'function') {
       console.log('Twitter API ready, loading tweet immediately')
       loadTweet()
     } else {
       console.log('Twitter API not ready, waiting...')
       // Twitter Widgets APIが読み込まれていない場合の処理
       const checkTwitterAPI = () => {
-        if (window.twttr && window.twttr.ready) {
+        if (window.twttr && typeof window.twttr.ready === 'function') {
           console.log('Twitter API became ready, loading tweet')
           loadTweet()
         } else {
