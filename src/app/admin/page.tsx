@@ -312,7 +312,7 @@ export default function AdminPage() {
                 value={formData.title}
                 onChange={handleInputChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-gray-900"
                 placeholder="例: 7つの習慣"
               />
             </div>
@@ -329,7 +329,7 @@ export default function AdminPage() {
                 value={formData.amazon_url}
                 onChange={handleInputChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-gray-900"
                 placeholder="https://amazon.co.jp/dp/..."
               />
               <p className="text-xs text-gray-500 mt-1">
@@ -349,7 +349,7 @@ export default function AdminPage() {
                 value={formData.x_post_url}
                 onChange={handleInputChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-gray-900"
                 placeholder="https://x.com/username/status/1234567890"
               />
               <p className="text-xs text-gray-500 mt-1">
