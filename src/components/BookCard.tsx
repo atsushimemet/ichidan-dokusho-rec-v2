@@ -117,23 +117,31 @@ export default function BookCard({ book }: BookCardProps) {
 
       {/* Amazonリンク */}
       <div className="mb-4">
-        <a
-          href={book.amazon_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={handleAmazonClick}
-          className="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors duration-200 text-sm font-medium ios-button"
-        >
-          <svg
-            className="w-4 h-4 mr-2"
-            viewBox="0 0 24 24"
-            fill="currentColor"
+        <div className="relative inline-block group">
+          <a
+            href={book.amazon_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={handleAmazonClick}
+            className="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors duration-200 text-sm font-medium ios-button"
           >
-            <path d="M7.5 2.5c-.8 0-1.5.7-1.5 1.5v16c0 .8.7 1.5 1.5 1.5h9c.8 0 1.5-.7 1.5-1.5V4c0-.8-.7-1.5-1.5-1.5h-9zm0 1h9v16h-9v-16z"/>
-            <path d="M10 6h4v1h-4V6zm0 2h4v1h-4V8zm0 2h4v1h-4v-1zm0 2h4v1h-4v-1z"/>
-          </svg>
-          Amazonで見る
-        </a>
+            <svg
+              className="w-4 h-4 mr-2"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path d="M7.5 2.5c-.8 0-1.5.7-1.5 1.5v16c0 .8.7 1.5 1.5 1.5h9c.8 0 1.5-.7 1.5-1.5V4c0-.8-.7-1.5-1.5-1.5h-9zm0 1h9v16h-9v-16z"/>
+              <path d="M10 6h4v1h-4V6zm0 2h4v1h-4V8zm0 2h4v1h-4v-1zm0 2h4v1h-4v-1z"/>
+            </svg>
+            Amazonで見る
+          </a>
+          
+          {/* ツールチップ */}
+          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+            非アフィリエイトリンクです
+            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
+          </div>
+        </div>
       </div>
 
       {/* Xポスト埋め込み */}
