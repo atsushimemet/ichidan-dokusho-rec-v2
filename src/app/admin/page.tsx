@@ -381,9 +381,9 @@ export default function AdminPage() {
                             href={book.amazon_url} 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            className="text-blue-600 hover:text-blue-800 break-all"
+                            className="text-blue-600 hover:text-blue-800"
                           >
-                            {book.amazon_url}
+                            Amazonで見る
                           </a>
                         </p>
                         <p>
@@ -392,9 +392,9 @@ export default function AdminPage() {
                             href={book.x_post_url} 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            className="text-blue-600 hover:text-blue-800 break-all"
+                            className="text-blue-600 hover:text-blue-800"
                           >
-                            {book.x_post_url}
+                            Xポストを見る
                           </a>
                         </p>
                         <p>
