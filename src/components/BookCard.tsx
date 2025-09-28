@@ -148,15 +148,6 @@ export default function BookCard({ book }: BookCardProps) {
           </div>
         ) : (
           <div className="space-y-2">
-            {/* デバッグ情報 */}
-            {process.env.NODE_ENV === 'development' && (
-              <div className="text-xs text-gray-400">
-                Tweet ID: {extractTweetId(book.x_post_url) || 'Invalid URL'} | 
-                Mounted: {isMounted.toString()} | 
-                Loaded: {isXPostLoaded.toString()}
-              </div>
-            )}
-            
             {/* 埋め込みエリア */}
             <div
               ref={tweetRef}
