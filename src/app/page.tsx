@@ -37,15 +37,32 @@ export default function Home() {
 
   // Xポストの埋め込みスクリプトを読み込み
   useEffect(() => {
+    // 既にスクリプトが読み込まれているかチェック
+    const existingScript = document.querySelector('script[src="https://platform.twitter.com/widgets.js"]')
+    if (existingScript) {
+      return
+    }
+
     const script = document.createElement('script')
     script.src = 'https://platform.twitter.com/widgets.js'
     script.async = true
-    document.body.appendChild(script)
+    script.charset = 'utf-8'
+    
+    // スクリプトの読み込み完了を待つ
+    script.onload = () => {
+      console.log('Twitter Widgets API loaded')
+    }
+    
+    script.onerror = () => {
+      console.error('Failed to load Twitter Widgets API')
+    }
+
+    document.head.appendChild(script)
 
     return () => {
-      const existingScript = document.querySelector('script[src="https://platform.twitter.com/widgets.js"]')
-      if (existingScript) {
-        document.body.removeChild(existingScript)
+      const scriptToRemove = document.querySelector('script[src="https://platform.twitter.com/widgets.js"]')
+      if (scriptToRemove) {
+        document.head.removeChild(scriptToRemove)
       }
     }
   }, [])

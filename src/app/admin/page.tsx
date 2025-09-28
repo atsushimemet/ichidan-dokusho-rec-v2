@@ -134,7 +134,7 @@ export default function AdminPage() {
                 onChange={handleInputChange}
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
-                placeholder="https://x.com/username/status/..."
+                placeholder="https://x.com/username/status/1234567890"
               />
               <p className="text-xs text-gray-500 mt-1">
                 推薦者のXポストのURLを入力してください
@@ -163,6 +163,12 @@ export default function AdminPage() {
             <li>• Xポストリンクは推薦者の投稿URLをそのまま貼り付けてください</li>
             <li>• 登録後、フィードページで確認できます</li>
           </ul>
+          <div className="mt-3 p-2 bg-yellow-50 border border-yellow-200 rounded">
+            <p className="text-xs text-yellow-800 font-medium">テスト用サンプル:</p>
+            <p className="text-xs text-yellow-700 mt-1">
+              Xポスト: https://x.com/elonmusk/status/1234567890
+            </p>
+          </div>
         </div>
       </main>
     </div>
