@@ -94,22 +94,28 @@ export default function AdminPage() {
       }
       
       console.log('Submitting form data:', processedFormData)
-      let error
+      let error, data
       if (editingBook) {
         // 更新処理
         console.log('Updating book:', editingBook.id, 'with data:', processedFormData)
-        const { error: updateError } = await supabase
+        const { data: updateData, error: updateError } = await supabase
           .from('books')
           .update(processedFormData)
           .eq('id', editingBook.id)
+          .select()
+        data = updateData
         error = updateError
+        console.log('Update response:', { data: updateData, error: updateError })
       } else {
         // 新規登録処理
         console.log('Inserting new book with data:', processedFormData)
-        const { error: insertError } = await supabase
+        const { data: insertData, error: insertError } = await supabase
           .from('books')
           .insert([processedFormData])
+          .select()
+        data = insertData
         error = insertError
+        console.log('Insert response:', { data: insertData, error: insertError })
       }
 
       if (error) {
@@ -165,18 +171,29 @@ export default function AdminPage() {
 
   // 削除
   const handleDelete = async (id: string) => {
-    if (!confirm('この書籍を削除しますか？')) return
+    console.log('Attempting to delete book with ID:', id)
+    
+    if (!confirm('この書籍を削除しますか？')) {
+      console.log('Delete cancelled by user')
+      return
+    }
 
     try {
-      const { error } = await supabase
+      console.log('Sending delete request to Supabase...')
+      const { data, error } = await supabase
         .from('books')
         .delete()
         .eq('id', id)
+        .select()
+
+      console.log('Delete response:', { data, error })
 
       if (error) {
+        console.error('Supabase delete error:', error)
         throw error
       }
 
+      console.log('Book deleted successfully')
       setMessage({ type: 'success', text: '書籍を削除しました' })
       fetchBooks()
     } catch (err) {

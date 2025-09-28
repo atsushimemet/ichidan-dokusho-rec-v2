@@ -51,6 +51,30 @@ BEGIN
   END IF;
 END $$;
 
+-- 管理者のみが更新可能（既存のポリシーがある場合はスキップ）
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies 
+    WHERE tablename = 'books' AND policyname = 'Allow update for authenticated users'
+  ) THEN
+    CREATE POLICY "Allow update for authenticated users" ON books
+      FOR UPDATE USING (true);
+  END IF;
+END $$;
+
+-- 管理者のみが削除可能（既存のポリシーがある場合はスキップ）
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies 
+    WHERE tablename = 'books' AND policyname = 'Allow delete for authenticated users'
+  ) THEN
+    CREATE POLICY "Allow delete for authenticated users" ON books
+      FOR DELETE USING (true);
+  END IF;
+END $$;
+
 -- インデックスの作成（既存のインデックスがある場合はスキップ）
 DO $$ 
 BEGIN
