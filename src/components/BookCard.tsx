@@ -10,6 +10,7 @@ interface BookCardProps {
 export default function BookCard({ book }: BookCardProps) {
   const [isXPostLoaded, setIsXPostLoaded] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
+  const [imageError, setImageError] = useState(false)
   const tweetRef = useRef<HTMLDivElement>(null)
 
   const handleAmazonClick = () => {
@@ -108,12 +109,40 @@ export default function BookCard({ book }: BookCardProps) {
     }
   }
 
+  // Amazon画像URLを生成する関数
+  const getAmazonImageUrl = (asin: string, size: 'small' | 'medium' | 'large' = 'medium'): string => {
+    const sizeMap = {
+      small: '_SL110_.jpg',
+      medium: '_SL160_.jpg',
+      large: '_SL500_.jpg'
+    }
+    return `https://images.amazon.com/images/P/${asin}.09${sizeMap[size]}`
+  }
+
   return (
     <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4 mb-4 max-w-md mx-auto">
-      {/* 書籍タイトル */}
-      <h2 className="text-lg font-semibold text-gray-900 mb-3 leading-tight">
-        {book.title}
-      </h2>
+      {/* 書籍画像とタイトル */}
+      <div className="flex gap-4 mb-4">
+        {/* 書籍画像 */}
+        {book.asin && !imageError && (
+          <div className="flex-shrink-0">
+            <img
+              src={getAmazonImageUrl(book.asin, 'medium')}
+              alt={book.title}
+              className="w-20 h-28 object-cover rounded-lg shadow-sm"
+              onError={() => setImageError(true)}
+              onLoad={() => setImageError(false)}
+            />
+          </div>
+        )}
+        
+        {/* 書籍タイトル */}
+        <div className="flex-1 min-w-0">
+          <h2 className="text-lg font-semibold text-gray-900 leading-tight">
+            {book.title}
+          </h2>
+        </div>
+      </div>
 
       {/* Amazonリンク */}
       <div className="mb-4">

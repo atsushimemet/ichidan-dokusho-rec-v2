@@ -61,7 +61,13 @@
 - `title`: 書籍名（string）  
 - `amazon_url`: Amazonリンク（string, 非アフィリエイト）  
 - `x_post_url`: 推薦Xポストリンク（string）  
-- `created_at`: 登録日時（timestamp, default now）  
+- `asin`: ASIN（string, Amazonリンクから自動抽出）  
+- `created_at`: 登録日時（timestamp, default now）
+
+## データベースセットアップ
+SQLスクリプトは `sql/` ディレクトリに格納されています：
+- `sql/supabase-schema.sql`: データベースの初期セットアップ
+- `sql/update-existing-asin.sql`: 既存データの移行用  
 
 ---
 
