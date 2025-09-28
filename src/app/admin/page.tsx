@@ -1,11 +1,14 @@
 'use client'
 
+import AdminAuth from '@/components/AdminAuth'
 import { supabase } from '@/lib/supabase'
 import { Book, BookInsert } from '@/types/database'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 export default function AdminPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true)
   const [formData, setFormData] = useState<BookInsert>({
     title: '',
     amazon_url: '',
@@ -17,6 +20,35 @@ export default function AdminPage() {
   const [booksLoading, setBooksLoading] = useState(true)
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
   const [editingBook, setEditingBook] = useState<Book | null>(null)
+
+  // 認証状態の確認
+  useEffect(() => {
+    const checkAuth = () => {
+      const authStatus = sessionStorage.getItem('admin_authenticated')
+      setIsAuthenticated(authStatus === 'true')
+      setIsCheckingAuth(false)
+    }
+    
+    checkAuth()
+  }, [])
+
+  // 書籍一覧の取得（認証されている場合のみ）
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchBooks()
+    }
+  }, [isAuthenticated])
+
+  // 認証成功時の処理
+  const handleAuthenticated = () => {
+    setIsAuthenticated(true)
+  }
+
+  // ログアウト処理
+  const handleLogout = () => {
+    sessionStorage.removeItem('admin_authenticated')
+    setIsAuthenticated(false)
+  }
 
   // AmazonリンクからASINを抽出する関数
   const extractASINFromAmazonURL = (url: string): string => {
@@ -43,10 +75,18 @@ export default function AdminPage() {
     }
   }
 
-  // 書籍一覧の取得
-  useEffect(() => {
-    fetchBooks()
-  }, [])
+  // 認証されていない場合は認証画面を表示
+  if (isCheckingAuth) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+      </div>
+    )
+  }
+
+  if (!isAuthenticated) {
+    return <AdminAuth onAuthenticated={handleAuthenticated} />
+  }
 
   const fetchBooks = async () => {
     try {
@@ -211,12 +251,20 @@ export default function AdminPage() {
             <h1 className="text-xl font-bold text-gray-900">
               管理者ページ
             </h1>
-            <Link
-              href="/"
-              className="text-orange-500 hover:text-orange-600 text-sm font-medium ios-button"
-            >
-              ← フィードに戻る
-            </Link>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleLogout}
+                className="text-red-500 hover:text-red-600 text-sm font-medium ios-button"
+              >
+                ログアウト
+              </button>
+              <Link
+                href="/"
+                className="text-orange-500 hover:text-orange-600 text-sm font-medium ios-button"
+              >
+                ← フィードに戻る
+              </Link>
+            </div>
           </div>
         </div>
       </header>

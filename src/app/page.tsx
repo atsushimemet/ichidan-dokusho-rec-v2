@@ -35,35 +35,21 @@ export default function Home() {
     }
   }
 
-  // Xポストの埋め込みスクリプトを読み込み
+  // Twitter Widgets APIの初期化
   useEffect(() => {
-    // 既にスクリプトが読み込まれているかチェック
-    const existingScript = document.querySelector('script[src="https://platform.twitter.com/widgets.js"]')
-    if (existingScript) {
-      return
-    }
-
-    const script = document.createElement('script')
-    script.src = 'https://platform.twitter.com/widgets.js'
-    script.async = true
-    script.charset = 'utf-8'
-    
-    // スクリプトの読み込み完了を待つ
-    script.onload = () => {
-      console.log('Twitter Widgets API loaded')
-    }
-    
-    script.onerror = () => {
-      console.error('Failed to load Twitter Widgets API')
-    }
-
-    document.head.appendChild(script)
-
-    return () => {
-      const scriptToRemove = document.querySelector('script[src="https://platform.twitter.com/widgets.js"]')
-      if (scriptToRemove) {
-        document.head.removeChild(scriptToRemove)
+    const initializeTwitterWidgets = () => {
+      if (typeof window !== 'undefined' && window.twttr && typeof window.twttr.ready === 'function') {
+        window.twttr.ready(() => {
+          console.log('Twitter Widgets API ready')
+        })
       }
+    }
+
+    // スクリプトが読み込まれた後に初期化
+    const timer = setTimeout(initializeTwitterWidgets, 1000)
+    
+    return () => {
+      clearTimeout(timer)
     }
   }, [])
 
